@@ -1,24 +1,340 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="description" content="ReDex repairs simulation-trained dexterous policies through brief finger-level physical corrections and tactile feedback.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="ReDex: Repairing Sim-to-Real Dexterous Policies by Finger-Level Compliant Interaction. Coming soon.">
   <title>ReDex: Repairing Sim-to-Real Dexterous Policies by Finger-Level Compliant Interaction</title>
-  <style>
-    :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
-    * { box-sizing: border-box; }
-    body { margin: 0; color: #172033; background: #fff; }
-    main { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5rem 1.5rem; text-align: center; }
-    h1 { max-width: 58rem; margin: 0; font-size: clamp(1.75rem, 4.2vw, 3.25rem); font-weight: 650; line-height: 1.25; letter-spacing: -0.035em; text-wrap: balance; }
-    .project-name { color: #2056a8; }
-    p { margin: 2.5rem 0 0; color: #667085; font-size: 1.125rem; line-height: 1.6; letter-spacing: 0.08em; }
-  </style>
+  <link rel="stylesheet" href="./static/css/academic.css?v=20260929-28">
+  <script defer src="./static/js/index.js?v=20260928-4"></script>
+  <script defer src="./static/js/narrative.js?v=20260928-1"></script>
 </head>
 <body>
-  <main>
-    <h1><span class="project-name">ReDex:</span> Repairing Sim-to-Real Dexterous Policies by Finger-Level Compliant Interaction</h1>
-    <p>Coming Soon</p>
+  <header class="publication-header">
+    <h1><span class="project-name">ReDex:</span> Repairing Sim-to-Real Dexterous Policies<br class="title-break"> by Finger-Level Compliant Interaction</h1>
+    <p class="publication-status">Anonymous Submission</p>
+    <a class="paper-link" href="./static/videos/redex_submission.pdf" target="_blank" rel="noopener">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2h7l4 4v12H5zM12 2v5h4M8 10h5M8 13h5"/></svg>
+      Paper <span>PDF ↗</span>
+    </a>
+  </header>
+
+  <nav class="project-nav" aria-label="Project page sections">
+    <div class="project-nav-links">
+      <a class="is-active" href="#highlights" aria-current="location">Video</a>
+      <a href="#abstract">Abstract</a>
+      <a href="#pipeline">Method</a>
+      <a href="#training">Results</a>
+      <a href="#autonomous-rollouts">Policy Rollouts</a>
+    </div>
+  </nav>
+
+  <main class="page-content" id="main-content">
+    <section class="featured-demos" id="highlights" aria-label="Project video">
+      <figure class="project-film">
+        <video id="project-video" controls playsinline preload="metadata" data-manual-playback aria-label="ReDex project video, 3 minutes" poster="./static/images/video-posters/icra-redex.jpg">
+          <source src="./static/videos/icra_redex_web.mp4?v=20260928-1" type="video/mp4">
+          Your browser does not support embedded video. <a href="./static/videos/icra_redex_web.mp4">Watch the project video.</a>
+        </video>
+        <figcaption>Brief finger-level corrections become autonomous dexterous skills. <span>Project video · 3 min · 1×</span></figcaption>
+      </figure>
+    </section>
+
+    <section class="abstract-section" id="abstract" aria-labelledby="abstract-title">
+      <h2 id="abstract-title">Abstract</h2>
+      <p>Simulation-trained dexterous policies often fail at a few critical contacts while retaining useful whole-hand coordination. <strong>ReDex</strong> repairs these policies through brief physical corrections to selected fingers, while the base policy controls the rest of the hand. Corrected motion and fingertip forces provide training targets for a standalone policy. On real hardware, ReDex improves object flipping and screwdriver rotation across five objects, with no human intervention at deployment.</p>
+    </section>
+
+    <section class="pipeline-section" id="pipeline" aria-labelledby="pipeline-title">
+      <h2 id="pipeline-title">Pipeline</h2>
+      <figure class="rollout-sequence-figure" id="rollout-sequences" aria-label="ReDex method overview">
+        <img src="./static/images/pip-overview.png" width="2200" height="882" loading="lazy" decoding="async" alt="ReDex pipeline: simulation-trained base policy, finger-level human correction, and a force-conditioned policy. Correction combines compliant control, force-informed targets, and transition blending to create training data.">
+      </figure>
+    </section>
+
+    <section class="results-section" id="training" aria-labelledby="training-title">
+      <h2 id="training-title">Real-World Results</h2>
+      <p class="section-intro">The repaired policies flip objects and rotate screwdrivers autonomously.</p>
+      <!-- Paper Table I. Flipping is success rate; rotation is mean task progress. -->
+      <div class="results-overview">
+        <div class="performance-charts" aria-label="Performance by object">
+          <div class="chart-legend" aria-hidden="true"><span><i class="legend-base"></i>Base (RMA)</span><span><i class="legend-gated"></i>Gated Correction</span><span><i class="legend-continuous"></i>Continuous Correction</span><span><i class="legend-redex"></i>Ours</span></div>
+          <div class="per-object-charts">
+            <figure>
+              <figcaption>Object Flipping<span>Success rate (%)</span></figcaption>
+              <svg viewBox="0 0 280 265" role="img" aria-label="Object Flipping — Success rate (%). Cuboid: Base (RMA) 16%, Gated Correction 12%, Continuous Correction 4%, Ours 80%; Cellphone: Base (RMA) 12%, Ours 92%.">
+                <line x1="29" y1="218" x2="273" y2="218" class="chart-gridline"/><text x="21" y="222" text-anchor="end" class="chart-tick">0</text>
+                <line x1="29" y1="176.75" x2="273" y2="176.75" class="chart-gridline"/><text x="21" y="180.75" text-anchor="end" class="chart-tick">25</text>
+                <line x1="29" y1="135.5" x2="273" y2="135.5" class="chart-gridline"/><text x="21" y="139.5" text-anchor="end" class="chart-tick">50</text>
+                <line x1="29" y1="94.25" x2="273" y2="94.25" class="chart-gridline"/><text x="21" y="98.25" text-anchor="end" class="chart-tick">75</text>
+                <line x1="29" y1="53" x2="273" y2="53" class="chart-gridline"/><text x="21" y="57" text-anchor="end" class="chart-tick">100</text>
+                <rect x="49.5" y="191.6" width="17" height="26.4" class="chart-bar-base" data-object="Cuboid" data-method="base" data-value="16"><title>Cuboid · Base (RMA): 16%</title></rect><text x="58" y="184.6" text-anchor="middle" class="chart-value base">16</text>
+                <rect x="71.5" y="198.2" width="17" height="19.8" class="chart-bar-gated" data-object="Cuboid" data-method="gated" data-value="12"><title>Cuboid · Gated Correction: 12%</title></rect><text x="80" y="191.2" text-anchor="middle" class="chart-value gated">12</text>
+                <rect x="93.5" y="211.4" width="17" height="6.6" class="chart-bar-continuous" data-object="Cuboid" data-method="continuous" data-value="4"><title>Cuboid · Continuous Correction: 4%</title></rect><text x="102" y="204.4" text-anchor="middle" class="chart-value continuous">4</text>
+                <rect x="115.5" y="86" width="17" height="132" class="chart-bar-redex" data-object="Cuboid" data-method="redex" data-value="80"><title>Cuboid · Ours: 80%</title></rect><text x="124" y="79" text-anchor="middle" class="chart-value redex">80</text>
+                <text x="91" y="242" text-anchor="middle" class="chart-object">Cuboid</text>
+                <rect x="193.5" y="198.2" width="17" height="19.8" class="chart-bar-base" data-object="Cellphone" data-method="base" data-value="12"><title>Cellphone · Base (RMA): 12%</title></rect><text x="202" y="191.2" text-anchor="middle" class="chart-value base">12</text>
+                <rect x="215.5" y="66.2" width="17" height="151.8" class="chart-bar-redex" data-object="Cellphone" data-method="redex" data-value="92"><title>Cellphone · Ours: 92%</title></rect><text x="224" y="59.2" text-anchor="middle" class="chart-value redex">92</text>
+                <text x="213" y="242" text-anchor="middle" class="chart-object">Cellphone</text>
+              </svg>
+            </figure>
+            <figure>
+              <figcaption>Screwdriver Rotation<span>Mean rotation progress (%)</span></figcaption>
+              <svg viewBox="0 0 280 265" role="img" aria-label="Screwdriver Rotation — Mean rotation progress (%). Normal: Base (RMA) 26%, Gated Correction 42%, Continuous Correction 36%, Ours 95%; Small: Base (RMA) 33%, Ours 99%; Large: Base (RMA) 19%, Ours 92%.">
+                <line x1="29" y1="218" x2="273" y2="218" class="chart-gridline"/><text x="21" y="222" text-anchor="end" class="chart-tick">0</text>
+                <line x1="29" y1="176.75" x2="273" y2="176.75" class="chart-gridline"/><text x="21" y="180.75" text-anchor="end" class="chart-tick">25</text>
+                <line x1="29" y1="135.5" x2="273" y2="135.5" class="chart-gridline"/><text x="21" y="139.5" text-anchor="end" class="chart-tick">50</text>
+                <line x1="29" y1="94.25" x2="273" y2="94.25" class="chart-gridline"/><text x="21" y="98.25" text-anchor="end" class="chart-tick">75</text>
+                <line x1="29" y1="53" x2="273" y2="53" class="chart-gridline"/><text x="21" y="57" text-anchor="end" class="chart-tick">100</text>
+                <rect x="42.5" y="175.1" width="12" height="42.9" class="chart-bar-base" data-object="Normal" data-method="base" data-value="26"><title>Normal · Base (RMA): 26%</title></rect><text x="48.5" y="168.1" text-anchor="middle" class="chart-value base">26</text>
+                <rect x="59.5" y="148.7" width="12" height="69.3" class="chart-bar-gated" data-object="Normal" data-method="gated" data-value="42"><title>Normal · Gated Correction: 42%</title></rect><text x="65.5" y="141.7" text-anchor="middle" class="chart-value gated">42</text>
+                <rect x="76.5" y="158.6" width="12" height="59.4" class="chart-bar-continuous" data-object="Normal" data-method="continuous" data-value="36"><title>Normal · Continuous Correction: 36%</title></rect><text x="82.5" y="151.6" text-anchor="middle" class="chart-value continuous">36</text>
+                <rect x="93.5" y="61.25" width="12" height="156.75" class="chart-bar-redex" data-object="Normal" data-method="redex" data-value="95"><title>Normal · Ours: 95%</title></rect><text x="99.5" y="54.25" text-anchor="middle" class="chart-value redex">95</text>
+                <text x="74" y="242" text-anchor="middle" class="chart-object">Normal</text>
+                <rect x="139.5" y="163.55" width="12" height="54.45" class="chart-bar-base" data-object="Small" data-method="base" data-value="33"><title>Small · Base (RMA): 33%</title></rect><text x="145.5" y="156.55" text-anchor="middle" class="chart-value base">33</text>
+                <rect x="156.5" y="54.65" width="12" height="163.35" class="chart-bar-redex" data-object="Small" data-method="redex" data-value="99"><title>Small · Ours: 99%</title></rect><text x="162.5" y="47.65" text-anchor="middle" class="chart-value redex">99</text>
+                <text x="154" y="242" text-anchor="middle" class="chart-object">Small</text>
+                <rect x="219.5" y="186.65" width="12" height="31.35" class="chart-bar-base" data-object="Large" data-method="base" data-value="19"><title>Large · Base (RMA): 19%</title></rect><text x="225.5" y="179.65" text-anchor="middle" class="chart-value base">19</text>
+                <rect x="236.5" y="66.2" width="12" height="151.8" class="chart-bar-redex" data-object="Large" data-method="redex" data-value="92"><title>Large · Ours: 92%</title></rect><text x="242.5" y="59.2" text-anchor="middle" class="chart-value redex">92</text>
+                <text x="234" y="242" text-anchor="middle" class="chart-object">Large</text>
+              </svg>
+            </figure>
+          </div>
+        </div>
+        <aside class="result-highlights" aria-labelledby="highlights-results-title">
+          <h3 id="highlights-results-title">Overall Improvement</h3>
+          <div class="result-highlight">
+            <h4>Object Flipping</h4>
+            <p class="highlight-score"><span>14%</span><span class="score-arrow" aria-hidden="true">→</span><strong>86%</strong></p>
+            <p>Success rate across two objects.<br>43/50 successful trials with our policy.</p>
+          </div>
+          <div class="result-highlight">
+            <h4>Screwdriver Rotation</h4>
+            <p class="highlight-score"><span>26.0%</span><span class="score-arrow" aria-hidden="true">→</span><strong>95.3%</strong></p>
+            <p>Mean rotation progress across three sizes.</p>
+          </div>
+          <p class="highlight-key">Base → Ours</p>
+        </aside>
+      </div>
+      <p class="results-source">25 trials per object–method pair. Flipping: stable 90° reorientation. Rotation: progress toward 360°, measured in 90° increments. Base: simulation-trained RMA.</p>
+
+    </section>
+
+    <section class="rollout-gallery" id="autonomous-rollouts" aria-labelledby="rollouts-title">
+        <header class="rollout-gallery-header">
+          <h2 id="rollouts-title">Policy Rollouts</h2>
+          <p>All policy videos below are fully autonomous and shown at 1× speed, with no speed-up.</p>
+        </header>
+        <section class="rollout-task" aria-label="Cuboid Flipping">
+          <h3>Cuboid Flipping</h3>
+          <div class="rollout-row"><figure class="rollout-item"><div class="rollout-video"><video aria-label="Cuboid Flipping, rollout 1, fully autonomous at 1× playback" muted id="ours-normal-cuboid-rollout-1" loop playsinline preload="none" poster="./static/images/video-posters/ours-normal-cuboid-rollout-1.jpg" data-source-width="960">
+                      <source src="./static/videos/ours-normal-cuboid-rollout-1.mp4"
+                              type="video/mp4">
+                    </video></div><figcaption class="rollout-label">#Rollout 1</figcaption></figure><figure class="rollout-item"><div class="rollout-video"><video aria-label="Cuboid Flipping, rollout 2, fully autonomous at 1× playback" muted id="ours-normal-cuboid-rollout-2" loop playsinline preload="none" poster="./static/images/video-posters/ours-normal-cuboid-rollout-2.jpg" data-source-width="960">
+                      <source src="./static/videos/ours-normal-cuboid-rollout-2.mp4"
+                              type="video/mp4">
+                    </video></div><figcaption class="rollout-label">#Rollout 2</figcaption></figure><figure class="rollout-item"><div class="rollout-video"><video aria-label="Cuboid Flipping, rollout 3, fully autonomous at 1× playback" muted id="ours-normal-cuboid-rollout-3" loop playsinline preload="none" poster="./static/images/video-posters/ours-normal-cuboid-rollout-3.jpg" data-source-width="960">
+                      <source src="./static/videos/ours-normal-cuboid-rollout-3.mp4"
+                              type="video/mp4">
+                    </video></div><figcaption class="rollout-label">#Rollout 3</figcaption></figure><figure class="rollout-item"><div class="rollout-video"><video aria-label="Cuboid Flipping, rollout 4, fully autonomous at 1× playback" muted id="ours-normal-cuboid-rollout-4" loop playsinline preload="none" poster="./static/images/video-posters/ours-normal-cuboid-rollout-4.jpg" data-source-width="960">
+                      <source src="./static/videos/ours-normal-cuboid-rollout-4.mp4"
+                              type="video/mp4">
+                    </video></div><figcaption class="rollout-label">#Rollout 4</figcaption></figure></div>
+        </section>
+        <section class="rollout-task" aria-label="Cellphone Flipping">
+          <h3>Cellphone Flipping</h3>
+          <div class="rollout-row"><figure class="rollout-item"><div class="rollout-video"><video aria-label="Cellphone Flipping, rollout 1, fully autonomous at 1× playback" muted id="ours-phone-flip-rollout-1" loop playsinline preload="none" poster="./static/images/video-posters/ours-phone-flip-rollout-1.jpg" data-source-width="960">
+                      <source src="./static/videos/ours-phone-flip-rollout-1.mp4" type="video/mp4">
+                    </video></div><figcaption class="rollout-label">#Rollout 1</figcaption></figure><figure class="rollout-item"><div class="rollout-video"><video aria-label="Cellphone Flipping, rollout 2, fully autonomous at 1× playback" muted id="ours-phone-flip-rollout-2" loop playsinline preload="none" poster="./static/images/video-posters/ours-phone-flip-rollout-2.jpg" data-source-width="960">
+                      <source src="./static/videos/ours-phone-flip-rollout-2.mp4" type="video/mp4">
+                    </video></div><figcaption class="rollout-label">#Rollout 2</figcaption></figure><figure class="rollout-item"><div class="rollout-video"><video aria-label="Cellphone Flipping, rollout 3, fully autonomous at 1× playback" muted id="ours-phone-flip-rollout-3" loop playsinline preload="none" poster="./static/images/video-posters/ours-phone-flip-rollout-3.jpg" data-source-width="960">
+                      <source src="./static/videos/ours-phone-flip-rollout-3.mp4" type="video/mp4">
+                    </video></div><figcaption class="rollout-label">#Rollout 3</figcaption></figure><figure class="rollout-item"><div class="rollout-video"><video aria-label="Cellphone Flipping, rollout 4, fully autonomous at 1× playback" muted id="ours-phone-flip-rollout-4" loop playsinline preload="none" poster="./static/images/video-posters/ours-phone-flip-rollout-4.jpg" data-source-width="960">
+                      <source src="./static/videos/ours-phone-flip-rollout-4.mp4" type="video/mp4">
+                    </video></div><figcaption class="rollout-label">#Rollout 4</figcaption></figure></div>
+        </section>
+        <section class="rollout-task" aria-label="Screwdriver Rotation">
+          <h3>Screwdriver Rotation</h3>
+          <div class="rollout-row"><figure class="rollout-item"><div class="rollout-video" data-video-highlight><video aria-label="Screwdriver Rotation, rollout 1, fully autonomous at 1× playback" muted id="normal-screwdriver-rollout-1" loop playsinline preload="none" poster="./static/images/video-posters/normal-screwdriver-rollout-1.jpg" data-source-width="1920">
+                      <source src="./static/videos/normal-screwdriver-rollout-1.mp4"
+                              type="video/mp4">
+                    </video>
+              <div class="contact-detail-inset" aria-label="Contact close-up"><video muted id="normal-screwdriver-rollout-1-detail" loop playsinline preload="none" poster="./static/images/video-posters/normal-screwdriver-rollout-1-detail.jpg" data-source-width="960">
+                        <source src="./static/videos/normal-screwdriver-rollout-1-detail.mp4"
+                                type="video/mp4">
+                      </video></div></div><figcaption class="rollout-label">#Rollout 1</figcaption></figure><figure class="rollout-item"><div class="rollout-video"><video aria-label="Screwdriver Rotation, rollout 2, fully autonomous at 1× playback" muted id="normal-screwdriver-rollout-2" loop playsinline preload="none" poster="./static/images/video-posters/normal-screwdriver-rollout-2.jpg" data-source-width="1920">
+                      <source src="./static/videos/normal-screwdriver-rollout-2.mp4"
+                              type="video/mp4">
+                    </video></div><figcaption class="rollout-label">#Rollout 2</figcaption></figure><figure class="rollout-item"><div class="rollout-video"><video aria-label="Screwdriver Rotation, rollout 3, fully autonomous at 1× playback" muted id="normal-screwdriver-rollout-3" loop playsinline preload="none" poster="./static/images/video-posters/normal-screwdriver-rollout-3.jpg" data-source-width="1920">
+                      <source src="./static/videos/normal-screwdriver-rollout-3.mp4"
+                              type="video/mp4">
+                    </video></div><figcaption class="rollout-label">#Rollout 3</figcaption></figure><figure class="rollout-item"><div class="rollout-video"><video aria-label="Screwdriver Rotation, rollout 4, fully autonomous at 1× playback" muted id="normal-screwdriver-rollout-4" loop playsinline preload="none" poster="./static/images/video-posters/normal-screwdriver-rollout-4.jpg" data-source-width="1920">
+                      <source src="./static/videos/normal-screwdriver-rollout-4.mp4"
+                              type="video/mp4">
+                    </video></div><figcaption class="rollout-label">#Rollout 4</figcaption></figure></div>
+        </section>
+        <div class="size-comparisons">
+        <section class="rollout-task" aria-label="Small screwdriver comparison">
+          <h3>Small Screwdriver</h3>
+          <div class="correction-pair">
+            <figure><div class="rollout-video" data-video-highlight><video aria-label="base policy small screwdriver" muted id="base-policy-small-screwdriver" loop playsinline preload="none" poster="./static/images/video-posters/base-policy-small-screwdriver.jpg" data-source-width="1920">
+                  <source src="./static/videos/base-policy-sim2real-small-screwdriver-clipped.mp4"
+                          type="video/mp4">
+                </video>
+              <div class="contact-detail-inset" aria-label="Contact close-up"><video muted id="base-small-screwdriver-contact-detail" loop playsinline preload="none" poster="./static/images/video-posters/base-small-screwdriver-contact-detail.jpg" data-source-width="1920">
+                    <source src="./static/videos/base-small-screwdriver-contact-detail-web.mp4"
+                            type="video/mp4">
+                  </video></div></div><figcaption>Base policy</figcaption></figure>
+            <figure><div class="rollout-video" data-video-highlight><video aria-label="ours small screwdriver" muted id="ours-small-screwdriver" loop playsinline preload="none" poster="./static/images/video-posters/ours-small-screwdriver.jpg" data-source-width="1920">
+                  <source src="./static/videos/ours-small-screwdriver-clipped.mp4"
+                          type="video/mp4">
+                </video>
+              <div class="contact-detail-inset" aria-label="Contact close-up"><video muted id="small-screwdriver-contact-detail" loop playsinline preload="none" poster="./static/images/video-posters/small-screwdriver-contact-detail.jpg" data-source-width="1920">
+                    <source src="./static/videos/small-contact-detail-web.mp4"
+                            type="video/mp4">
+                  </video></div></div><figcaption>Ours</figcaption></figure>
+          </div>
+        </section>
+        <section class="rollout-task" aria-label="Large screwdriver comparison">
+          <h3>Large Screwdriver</h3>
+          <div class="correction-pair">
+            <figure><div class="rollout-video" data-video-highlight><video aria-label="base policy large screwdriver" muted id="base-policy-large-screwdriver" loop playsinline preload="none" poster="./static/images/video-posters/base-policy-large-screwdriver.jpg" data-source-width="1920">
+                  <source src="./static/videos/base-policy-sim2real-large-screwdriver-clipped.mp4"
+                          type="video/mp4">
+                </video>
+              <div class="contact-detail-inset" aria-label="Contact close-up"><video muted id="base-large-screwdriver-contact-detail" loop playsinline preload="none" poster="./static/images/video-posters/base-large-screwdriver-contact-detail.jpg" data-source-width="1920">
+                    <source src="./static/videos/base-large-screwdriver-contact-detail-web.mp4"
+                            type="video/mp4">
+                  </video></div></div><figcaption>Base policy</figcaption></figure>
+            <figure><div class="rollout-video" data-video-highlight><video aria-label="ours large screwdriver" muted id="ours-large-screwdriver" loop playsinline preload="none" poster="./static/images/video-posters/ours-large-screwdriver.jpg" data-source-width="1920">
+                  <source src="./static/videos/ours-large-screwdriver-clipped.mp4"
+                          type="video/mp4">
+                </video>
+              <div class="contact-detail-inset" aria-label="Contact close-up"><video muted id="ours-large-screwdriver-contact-detail" loop playsinline preload="none" poster="./static/images/video-posters/ours-large-screwdriver-contact-detail.jpg" data-source-width="1920">
+                    <source src="./static/videos/ours-large-screwdriver-contact-detail-web.mp4"
+                            type="video/mp4">
+                  </video></div></div><figcaption>Ours</figcaption></figure>
+          </div>
+        </section>
+        </div>
+    </section>
+
+    <section class="method-section" id="interface" aria-labelledby="interface-title">
+      <header class="method-introduction">
+        <h2 id="interface-title">How Humans Provide Help</h2>
+      </header>
+
+      <div class="method-workflow">
+        <section class="method-panel" id="method-correction" aria-label="Base policy and human correction">
+          <div class="method-column-labels" aria-hidden="true"><span>Base policy</span><span>Human correction</span></div>
+          <div class="method-correction-gallery" aria-label="Cellphone flipping on the top row; screwdriver rotation on the bottom row">
+            <figure class="method-demo"><div class="rollout-video"><video id="base-failure-cellphone" muted loop playsinline preload="none" aria-label="Base policy failure: cellphone flipping" poster="./static/images/video-posters/base-failure-cellphone.jpg">
+              <source src="./static/videos/base-failure-cellphone.mp4?v=20260914-2" type="video/mp4">
+            </video></div></figure>
+            <figure class="method-demo"><div class="rollout-video"><video id="human-correction-cellphone" muted loop playsinline preload="none" aria-label="Human correction: cellphone flipping" poster="./static/images/video-posters/human-correction-cellphone.jpg">
+              <source src="./static/videos/human-correction-cellphone.mp4?v=20260914-1" type="video/mp4">
+            </video></div></figure>
+            <figure class="method-demo"><div class="rollout-video"><video id="base-failure-screwdriver" muted loop playsinline preload="none" aria-label="Base policy failure: normal screwdriver rotation stalls" poster="./static/images/video-posters/base-failure-screwdriver.jpg">
+              <source src="./static/videos/base-failure-screwdriver.mp4" type="video/mp4">
+            </video></div></figure>
+            <figure class="method-demo"><div class="rollout-video"><video id="human-correction-screwdriver" muted loop playsinline preload="none" aria-label="Human correction: screwdriver rotation" poster="./static/images/video-posters/human-correction-screwdriver.jpg">
+              <source src="./static/videos/human-correction-screwdriver.mp4" type="video/mp4">
+            </video></div></figure>
+          </div>
+        </section>
+
+        <section class="method-panel" id="method-reconstruction" aria-label="Target reconstruction">
+          <p class="method-source-label">Target reconstruction</p>
+          <figure class="reconstruction-demo">
+            <div class="target-reconstruction-clip">
+            <video id="force-informed-target" muted loop playsinline controls data-video-controls preload="none" aria-label="Force-informed target reconstruction" poster="./static/images/video-posters/force-informed-target-8s.jpg" width="960" height="732">
+              <source src="./static/videos/force-informed-target-8s.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          </figure>
+        </section>
+      </div>
+    </section>
+    <section id="sim2real-failure-modes" aria-labelledby="failure-analysis-title">
+      <h2 id="failure-analysis-title">Failure Cases</h2>
+      <div class="failure-video-grid">
+        <figure><figcaption>Correction Failure<span class="failure-policy">Base policy · During correction</span></figcaption><div class="rollout-video"><video aria-label="Base policy failure during human correction: the phone slips out of the grasp" muted id="failure-cellphone-grasp-loss" loop playsinline controls data-video-controls preload="none" poster="./static/images/video-posters/failure-cellphone-grasp-loss.jpg" data-source-width="1920">
+              <source src="./static/videos/failure-cellphone-grasp-loss.mp4"
+                      type="video/mp4">
+            </video></div><p class="failure-note">The phone slips out of the grasp during human correction.</p></figure>
+        <figure><figcaption>Incomplete Reorientation<span class="failure-policy">Base policy</span></figcaption><div class="rollout-video"><video aria-label="Base policy failure: incomplete cuboid reorientation" muted id="failure-cuboid-incomplete-reorientation" loop playsinline controls data-video-controls preload="none" poster="./static/images/video-posters/failure-cuboid-incomplete-reorientation.jpg" data-source-width="1920">
+              <source src="./static/videos/failure-cuboid-incomplete-reorientation.mp4"
+                      type="video/mp4">
+            </video></div><p class="failure-note">The cuboid slides without completing the flip.</p></figure>
+        <figure><figcaption>Non-Gentle Contact<span class="failure-policy">Base policy</span></figcaption><div class="rollout-video"><video aria-label="Base policy: cellphone flip with non-gentle contact" muted id="base-cellphone-success-not-gentle" loop playsinline controls data-video-controls preload="none" poster="./static/images/video-posters/base-cellphone-success-not-gentle.jpg" data-source-width="1920">
+              <source src="./static/videos/base-cellphone-success-not-gentle.mp4"
+                      type="video/mp4">
+            </video></div><p class="failure-note">The flip completes with abrupt contact.</p></figure>
+        <figure>
+          <figcaption>Normal Screwdriver<span class="failure-policy">Base policy</span></figcaption>
+          <div class="rollout-video">
+            <video id="failure-base-normal-screwdriver" aria-label="Base policy failing to sustain normal screwdriver rotation" muted loop playsinline controls data-video-controls preload="none" poster="./static/images/video-posters/base-failure-screwdriver.jpg">
+              <source src="./static/videos/base-failure-screwdriver.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <p class="failure-note">Finger motion does not sustain rotation.</p>
+        </figure>
+        <figure>
+          <figcaption>Small Screwdriver<span class="failure-policy">Base policy</span></figcaption>
+          <div class="rollout-video">
+            <video id="failure-base-small-screwdriver" aria-label="Base policy repeatedly regrasping a small screwdriver with little rotation" muted loop playsinline controls data-video-controls preload="none" poster="./static/images/video-posters/base-policy-small-screwdriver.jpg">
+              <source src="./static/videos/base-policy-sim2real-small-screwdriver-clipped.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <p class="failure-note">Repeated regrasping produces little rotation.</p>
+        </figure>
+        <figure>
+          <figcaption>Large Screwdriver<span class="failure-policy">Base policy</span></figcaption>
+          <div class="rollout-video">
+            <video id="failure-base-large-screwdriver" aria-label="Base policy making little progress rotating a large screwdriver" muted loop playsinline controls data-video-controls preload="none" poster="./static/images/video-posters/base-policy-large-screwdriver.jpg">
+              <source src="./static/videos/base-policy-sim2real-large-screwdriver-clipped.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <p class="failure-note">The handle makes little rotational progress.</p>
+        </figure>
+        <figure>
+          <figcaption>Early Release<span class="failure-policy">Policy without force</span></figcaption>
+          <div class="rollout-video">
+            <video id="failure-no-virtual-target-release" aria-label="Policy without force failure: the cuboid drops back to the tray" muted loop playsinline controls data-video-controls preload="none" poster="./static/images/video-posters/no-virtual-target.jpg">
+              <source src="./static/videos/no-virtual-target.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <p class="failure-note">The cuboid drops back to the tray.</p>
+        </figure>
+        <figure>
+          <figcaption>Incomplete Flip<span class="failure-policy">Policy without target</span></figcaption>
+          <div class="rollout-video">
+            <video id="failure-no-virtual-target-support" aria-label="Policy without target failure: the cuboid remains tilted instead of flipping" muted loop playsinline controls data-video-controls preload="none" poster="./static/images/video-posters/no-virtual-target-2.jpg">
+              <source src="./static/videos/no-virtual-target-2.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <p class="failure-note">The cuboid stays tilted instead of flipping.</p>
+        </figure>
+        <figure>
+          <figcaption>Dropped Screwdriver<span class="failure-policy">Base policy</span></figcaption>
+          <!-- Source: outputs/redex_explainer_v1/build/media/media15.mp4; full clip at original speed. -->
+          <div class="rollout-video">
+            <video id="failure-screwdriver-grasp-loss" aria-label="Base policy failure: the screwdriver slips out of the grasp" muted loop playsinline controls data-video-controls preload="none" poster="./static/images/video-posters/failure-screwdriver-grasp-loss.jpg">
+              <source src="./static/videos/failure-screwdriver-grasp-loss.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <p class="failure-note">The screwdriver slips through the fingers and drops.</p>
+        </figure>
+      </div>
+    </section>
   </main>
+  <footer>ReDex · Anonymous Submission · 2026</footer>
 </body>
 </html>
